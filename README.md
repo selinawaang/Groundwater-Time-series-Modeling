@@ -1,6 +1,6 @@
 # Groundwater-Time-series-Modeling
-Our team's submission to the Groundwater Time Series Modeling Challenge: https://github.com/gwmodeling/challenge
-
+Description of our team's submission to the [Groundwater Time Series Modeling Challenge](https://github.com/gwmodeling/challenge
+).
 ## Author(s)
 
 - Xinyue (Selina) Wang (Brown University DSI)
