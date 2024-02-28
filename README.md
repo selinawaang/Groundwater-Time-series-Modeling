@@ -33,10 +33,17 @@ The well is situated in Bavaria, in the Upper Jurassic Malm Karst aquifer. It is
      - features that encode the time of year and time of month signals
 3. For data preprocessing, we standardized all the continuous features and used a onehot encoding to encode the categorical features.
 4. We chose the Mean Squared Error (MSE) as our evaluation metric because it penalizes extreme values and large errors more heavily, which is suitable for this application as we are most interested in the extreme highs and lows of ground water level.
-5. We tried three different models: linear regression with regularization (lasso), Support Vector Machine (SVR), and a Random Forest Regressor.
+5. We tried three different models: linear regression with regularization (lasso), Support Vector Machine (SVR), and a Random Forest Regressor, as well as a baseline model that predicts the average water level for each day.
 6. Our data splitting strategy is a bit complicated. We split our data into training, validation and test sets, keeping these three sets in chronological order so as to avoid information leakage since we do not want to be using future information to make predictions about past data. For each algorithm, we trained the model on the training set, used the validation set to choose the est set of hyperparameters, and then predicted on the test set to calculate the test MSE score. We repeated this procedures for 5 iterations, for each iteration, we expand the training set by one year, and shift out the validation and test sets by one year, so that each algorithm is being evaluated on 5 different test sets. This gives 5 different models and 5 different MSE test scores for each ML algorithm. We perform these iterations to account for uncertainties in our model results and better evaluate each algorithm's performance on different testing periods.
 7. We choose the model with the lowest mean MSE test score as our best model. In our case it turned out to be the SVR model with a mean MSE of 0.027! the SVR had a lower MSE score and also was relatively quck to compute.
 8. We then used these 5 models to produce 5 predictions on the submission dataset, and used these to construct the mean prediction and 95% prediction intervals for submission. 
+
+Average MSE: 0.027
+
+Prediction on two different test sets (years 2015 and 2016):
+
+![pred15](svr_1.png)
+![pred16](svr_2.png)
 
 Below is our final prediction for submission:
 
@@ -47,15 +54,14 @@ Below is our final prediction for submission:
    -  Instead of adding lags of features, I decided to incorporate past data into my LSTM architecture by letting it learn from a sequence of the past 30 days of meterlogical data and predict one day of water level.
    - I also experimented with a different way of encoding the time of year signal by transforming it into sine and cosine waves to capture the cyclical pattern.
 2. For splitting, I peformed a simple splitting of train - validation - test sets in chronological order, where the validation and test sets each consist of one year of data.
-3. 
+3. future work: ...
 
+The MSE on the validation (year 2015) and test (year 2016) sets are 0.042 and 0.032 respectively. Below are the prediction results on the validation and test sets.
 
-### Python and package versions:
-Python version 3.10.5\
-numpy version 1.22.4\
-matplotlib version 3.5.2\
-sklearn version 1.1.1\
-pandas version 1.4.2
+![lstm15](lstm_2.png)
+![lstm16](lstm_1.png)
+
+### Future work:
 
 
 ## Supplementary information
