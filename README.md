@@ -20,18 +20,28 @@ There are three main notebooks:
 
 The well is situated in Bavaria, in the Upper Jurassic Malm Karst aquifer. It is a deep, confined aquifer (partly artisian), which is overlain by a local alluviual aquifer in a small river valley. Surface elevation is about 375 masl, depth to groundwater 0.9 m on average.
 
-
+![Heads](https://github.com/selinawaang/Groundwater-Time-series-Modeling/blob/main/head_plot.png)
 
 
 
 ## Model workflow
 
-### Overview:
-- Using the input data, we created addional features, which include the mean value of each feature over the past 15, 20 and 90 days, as well as a 'day' feature that specifies the day of the month
-- We used the MSE as our evaluation metric, and tried three different ML algorithms: Lasso regression, SVR, and random forest regressor
-- We split the data into training and test sets, where observations in the test set always occur later in time than observations in the training set. We trained the model on the training set, predicted on the test set, and calculate an MSE score on the test set. We repeated this procedure for 5 iterations, each interation consists of a test set that is later in time than the previous test set, and a training set that includes all the datapoints that are earlier in time than the test set. This gives 5 different models and 5 different MSE test scores for each ML algorithm. We do these iterations to account for uncertainties in our model results, since some of the models we trained are deterministic, and there is also no randomness in a regular time-series split.
-- In both locations (Germany and Netherlands), the SVR algorithm performed the best, in terms of having a low mean MSE score, low variance in the MSE scores as well as a relatively shorter run time
-- We then use these 5 models to produce 5 predictions on the test data used for submission, and take the average of the 5 predictions as our final prediction. We take the square root of the mean of the 5 MSE scores as the RMSE of our prediction. The 95% prediction interval is calculated by adding and subtracting 1.96*RMSE to our final prediction.
+### Original ML approach:
+1. We performed [Exploratory Data Analysis](Germany_EDA.ipynb) to understand the distribution and seasonality of feature variables, remove highly correlated features, and gain insights for feature engineering.
+2. For feature engineering, we created two types of features:
+     - lags of feature variables
+     - features that encode the time of year and time of month signals
+3. We chose the Mean Squared Error (MSE) as our evaluation metric because it penalizes extreme values and large errors more heavily, which is suitable for this application as we are most interested in the extreme highs and lows of ground water level.
+4. We tried three different models: linear regression with regularization (lasso), Support Vector Machine (SVR), and a Random Forest Regressor.
+5. Our data splitting strategy is a bit complicated. We split our data into training, validation and test sets, keeping these three sets in chronological order so as to avoid information leakage since we do not want to be using future information to make predictions about past data. For each algorithm, we trained the model on the training set, used the validation set to choose the est set of hyperparameters, and then predicted on the test set to calculate the test MSE score. We repeated this procedures for 5 iterations, for each iteration, we expand the training set by one year, and shift out the validation and test sets by one year, so that each algorithm is being evaluated on 5 different test sets. This gives 5 different models and 5 different MSE test scores for each ML algorithm. We perform these iterations to account for uncertainties in our model results and better evaluate each algorithm's performance on different testing periods.
+6. We choose the model with the lowest mean MSE test score as our best model. In our case it turned out to be the SVR model! the SVR had a lower MSE score and also was relatively quck to compute.
+7. We then used these 5 models to produce 5 predictions on the submission dataset, and used these to construct the mean prediction and 95% prediction intervals for submission. 
+
+Below is our final prediction for submission:
+
+![final_prediction](https://github.com/selinawaang/Groundwater-Time-series-Modeling/blob/main/final_prediction.png)
+
+### LSTM approach:
 
 
 ### Python and package versions:
