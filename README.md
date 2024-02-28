@@ -1,29 +1,30 @@
-# Groundwater-Time-series-Modeling
-Description of our team's submission to the [Groundwater Time Series Modeling Challenge](https://github.com/gwmodeling/challenge
-).
+# Challenge Description:
+
+## Overview
+
+This repo is based on our team's submission for the groundwater time series modeling challenge. The goal of this challenge is to predict the groundwater level over a period of time using meteorological data. The constraint is that we are not allowed to use groundwater levels from previous time points to make predictions. The project was submitted in 2023, but I recently upraded our original code to include an LSTM model (still in progress), and also made our code more modular. 
+
+There are three main notebooks:
+- [Exploratory Data Analysis](Germany_EDA.ipynb)
+- [Original ML model](Germany_prediction.ipynb)
+- [LSTM model](Germany_prediction_LSTM.ipynb)
+
+
 ## Author(s)
 
 - Xinyue (Selina) Wang (Brown University DSI)
 - Yang Zheng (Brown University DSI)
 
-## Modeled locations
 
-We modelled the following locations (check modelled locations):
+## Location description
 
-- [x] Netherlands
-- [x] Germany
-- [ ] Sweden 1
-- [ ] Sweden 2
-- [ ] USA
-
-## Model description
-
-
-For both locations, we used a Support Vector Machine Regression model (SVR).
+The well is situated in Bavaria, in the Upper Jurassic Malm Karst aquifer. It is a deep, confined aquifer (partly artisian), which is overlain by a local alluviual aquifer in a small river valley. Surface elevation is about 375 masl, depth to groundwater 0.9 m on average.
 
 
 
-## Model workflow to reproduce
+
+
+## Model workflow
 
 ### Overview:
 - Using the input data, we created addional features, which include the mean value of each feature over the past 15, 20 and 90 days, as well as a 'day' feature that specifies the day of the month
@@ -32,10 +33,6 @@ For both locations, we used a Support Vector Machine Regression model (SVR).
 - In both locations (Germany and Netherlands), the SVR algorithm performed the best, in terms of having a low mean MSE score, low variance in the MSE scores as well as a relatively shorter run time
 - We then use these 5 models to produce 5 predictions on the test data used for submission, and take the average of the 5 predictions as our final prediction. We take the square root of the mean of the 5 MSE scores as the RMSE of our prediction. The 95% prediction interval is calculated by adding and subtracting 1.96*RMSE to our final prediction.
 
-### Code:
-Please refer to: \
-[Germany code](Germany_prediction.ipynb)\
-[Netherlands code](Netherlands_prediction.ipynb)
 
 ### Python and package versions:
 Python version 3.10.5\
@@ -45,27 +42,28 @@ sklearn version 1.1.1\
 pandas version 1.4.2
 
 
-## Supplementary model data used
+## Supplementary information
 
-No additional information was obtained and/or used.
+### Input data description
 
-## Estimation of effort
+The following input data are provided to model the head time series. This data were collected from the E-OBS dataset 
+v25.0e at 0.1deg grid size.
 
-Please provide an (rough) estimate of the time it took to develop the models (e.g., read in data, pick a model 
-structure, etcetera) and calibrate the parameters (if any). If possible, please also state the computational resources that 
-were required.
+- Daily Precipitation (RR) in mm/d.
+- Daily mean temperature (TG) in degree Celsius.
+- Daily minimum temperature (TM) in degree Celsius.
+- Daily maximum temperature (TX) in degree Celsius.
+- Daily averaged sea level pressure (PP) in hPa.
+- Daily averaged relative humidity (HU) in %.
+- Daily mean wind speed (FG) in m/s.
+- Daily mean global radiation (QQ) in W/m2.
+- Potential evaporation (ET) computed with Makkink in mm/d.
 
-| Location    | Development time (hrs) | Calibration time (s) | Total time (hrs) | 
-|-------------|------------------------|----------------------|------------------|
-| Netherlands | ~ 4                    | 140                  | 04:02:20         |
-| Germany     | ~ 30                   | 168                  | 30:02:48         |
-| Sweden 1    |                        |                      |                  |
-| Sweden 2    |                        |                      |                  |
-| USA         |                        |                      |                  |
+### Calibration and testing data
 
-Most of the time was spent developing the model for Germany, and then we applied the similar procedure to the Netherlands data. The calibration time recorded here is the time it took to train the models.
+The head data are split into a training and testing period. Data are provided for the training/calibration period. Participants have to provide a simulated time 
+series for the entire period:
 
+- **Training period:** 2002-05-01 to 2016-12-31
+- **Testing period:** 2017-01-01 to 2021-12-31
 
-## Additional information
-
-For the Netherlands submission, we included two files. The [submission form](submission_form_Netherlands.csv) only includes predictions for the days present in the form, and the [full simulation results](full_simulation_results_Netherlands.csv) contains predictions for all the days after 2000-01-01.
