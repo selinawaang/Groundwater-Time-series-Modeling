@@ -31,17 +31,23 @@ The well is situated in Bavaria, in the Upper Jurassic Malm Karst aquifer. It is
 2. For feature engineering, we created two types of features:
      - lags of feature variables
      - features that encode the time of year and time of month signals
-3. We chose the Mean Squared Error (MSE) as our evaluation metric because it penalizes extreme values and large errors more heavily, which is suitable for this application as we are most interested in the extreme highs and lows of ground water level.
-4. We tried three different models: linear regression with regularization (lasso), Support Vector Machine (SVR), and a Random Forest Regressor.
-5. Our data splitting strategy is a bit complicated. We split our data into training, validation and test sets, keeping these three sets in chronological order so as to avoid information leakage since we do not want to be using future information to make predictions about past data. For each algorithm, we trained the model on the training set, used the validation set to choose the est set of hyperparameters, and then predicted on the test set to calculate the test MSE score. We repeated this procedures for 5 iterations, for each iteration, we expand the training set by one year, and shift out the validation and test sets by one year, so that each algorithm is being evaluated on 5 different test sets. This gives 5 different models and 5 different MSE test scores for each ML algorithm. We perform these iterations to account for uncertainties in our model results and better evaluate each algorithm's performance on different testing periods.
-6. We choose the model with the lowest mean MSE test score as our best model. In our case it turned out to be the SVR model! the SVR had a lower MSE score and also was relatively quck to compute.
-7. We then used these 5 models to produce 5 predictions on the submission dataset, and used these to construct the mean prediction and 95% prediction intervals for submission. 
+3. For data preprocessing, we standardized all the continuous features and used a onehot encoding to encode the categorical features.
+4. We chose the Mean Squared Error (MSE) as our evaluation metric because it penalizes extreme values and large errors more heavily, which is suitable for this application as we are most interested in the extreme highs and lows of ground water level.
+5. We tried three different models: linear regression with regularization (lasso), Support Vector Machine (SVR), and a Random Forest Regressor.
+6. Our data splitting strategy is a bit complicated. We split our data into training, validation and test sets, keeping these three sets in chronological order so as to avoid information leakage since we do not want to be using future information to make predictions about past data. For each algorithm, we trained the model on the training set, used the validation set to choose the est set of hyperparameters, and then predicted on the test set to calculate the test MSE score. We repeated this procedures for 5 iterations, for each iteration, we expand the training set by one year, and shift out the validation and test sets by one year, so that each algorithm is being evaluated on 5 different test sets. This gives 5 different models and 5 different MSE test scores for each ML algorithm. We perform these iterations to account for uncertainties in our model results and better evaluate each algorithm's performance on different testing periods.
+7. We choose the model with the lowest mean MSE test score as our best model. In our case it turned out to be the SVR model with a mean MSE of 0.027! the SVR had a lower MSE score and also was relatively quck to compute.
+8. We then used these 5 models to produce 5 predictions on the submission dataset, and used these to construct the mean prediction and 95% prediction intervals for submission. 
 
 Below is our final prediction for submission:
 
 ![final_prediction](https://github.com/selinawaang/Groundwater-Time-series-Modeling/blob/main/final_prediction.png)
 
 ### LSTM approach:
+1. I performed EDA and feature engineering similarly to how it was done in our original approach, two key differences are:
+   -  Instead of adding lags of features, I decided to incorporate past data into my LSTM architecture by letting it learn from a sequence of the past 30 days of meterlogical data and predict one day of water level.
+   - I also experimented with a different way of encoding the time of year signal by transforming it into sine and cosine waves to capture the cyclical pattern.
+2. For splitting, I peformed a simple splitting of train - validation - test sets in chronological order, where the validation and test sets each consist of one year of data.
+3. 
 
 
 ### Python and package versions:
