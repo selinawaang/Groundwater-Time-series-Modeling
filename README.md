@@ -26,7 +26,7 @@ The well is situated in Bavaria, in the Upper Jurassic Malm Karst aquifer. It is
 
 ## Model workflow
 
-### Original ML approach:
+### [Original ML approach]((Germany_prediction.ipynb)):
 1. We performed [Exploratory Data Analysis](Germany_EDA.ipynb) to understand the distribution and seasonality of feature variables, remove highly correlated features, and gain insights for feature engineering.
 2. For feature engineering, we created two types of features:
      - lags of feature variables
@@ -49,7 +49,7 @@ Below is our final prediction for submission:
 
 ![final_prediction](https://github.com/selinawaang/Groundwater-Time-series-Modeling/blob/main/final_prediction.png)
 
-### LSTM approach:
+### [LSTM approach](Germany_prediction_LSTM.ipynb):
 1. I performed EDA and feature engineering similarly to how it was done in our original approach, two key differences are:
    -  Instead of adding lags of features, I decided to incorporate past data into my LSTM architecture by letting it learn from a sequence of the past 30 days of meterlogical data and predict one day of water level.
    - I also experimented with a different way of encoding the time of year signal by transforming it into sine and cosine waves to capture the cyclical pattern.
@@ -61,7 +61,10 @@ The MSE on the validation (year 2015) and test (year 2016) sets are 0.042 and 0.
 ![lstm15](lstm_2.png)
 ![lstm16](lstm_1.png)
 
-### Future work:
+### Points of improvement:
+- in depth analysis of the cyclical pattern of meterological data to decide the lags / number of time steps to look back to for LSTM
+- tune parameters for LSTM model
+- other feature engineering ideas incorporating domain knowledge
 
 
 ## Supplementary information
