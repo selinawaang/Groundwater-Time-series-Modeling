@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repo is based on our team's submission for the groundwater time series modeling challenge. The goal of this challenge is to predict the groundwater level over a period of time using meteorological data. The constraint is that we are not allowed to use groundwater levels from previous time points to make predictions. The project was submitted in 2023, but I recently upraded our original code to include an LSTM model (still in progress), and also made our code more modular. 
+This repo is based on our team's submission for the groundwater time series modeling challenge. The goal of this challenge is to predict the groundwater level of a well over a period of time using meteorological data. The constraint is that we are not allowed to use groundwater levels from previous time points to make predictions. The project was submitted in 2023, but I recently updated our original code to include an LSTM model (still in progress), and also made our code more modular. 
 
 There are three main notebooks:
 - [Exploratory Data Analysis](Germany_EDA.ipynb)
